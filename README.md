@@ -19,6 +19,9 @@ inspired by work of https://bsky.app/profile/leedoughty.bsky.social
 - radial-lines poking out from behind circle/square
 - two opposing quarter-circles
 - circle-of-circles with same-size circle in center
+- divide into overlays and underlays
+  - underlays are opaque
+  - but some overlays are opaque and SMALLER
 
 
 ## from P5.js-vite Starter Template 🚀

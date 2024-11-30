@@ -3,44 +3,46 @@ import {sketch} from 'p5js-wrapper';
 
 // inspired by work of https://bsky.app/profile/leedoughty.bsky.social
 
-// https://www.gorillasun.de/blog/dashed-lines-in-p5js/
-
-/**
-  IDEAS:
-    - rounded corners on corners
-    - fat square cross
-    - double-line circle, double-line square
-    - combine two tiles
-    - equidistant circle/square insets (like stripes)
-    - dashed-line segments matching over circles
-    - improve circle conditioning
-    - zig-zag starburst
-    - "atomic" loops
-    - radial-lines poking out from behind circle/square
-    - two opposing quarter-circles
-    - circle-of-circles with same-size circle in center
-**/
-
 const palettes = [
-  "https://coolors.co/palette/00ffff-00ff15-ffff00-ff9500-ff0040-ff00ff",
-  "https://coolors.co/palette/04e762-f5b700-008bf8-89fc00-f4442e",
-  "https://coolors.co/palette/ffc759-ff7b9c-607196-babfd1-e8e9ed",
-  "https://coolors.co/palette/81f4e1-56cbf9-ff729f-d3c4d1",
-  "https://coolors.co/palette/cfd4c5-eecfd4-efb9cb-e6adec-c287e8",
-  "https://coolors.co/palette/f5ffc6-b4e1ff-ab87ff-fface4-c1ff9b",
-  "https://coolors.co/palette/70d6ff-ff70a6-ff9770-ffd670-e9ff70",
-  'https://coolors.co/palette/f72585-b5179e-7209b7-560bad-480ca8-3a0ca3-3f37c9-4361ee-4895ef-4cc9f0',
-  'https://coolors.co/palette/9b5de5-f15bb5-fee440-00bbf9-00f5d4',
-  'https://coolors.co/palette/0b090a-161a1d-660708-a4161a-ba181b-e5383b-b1a7a6-d3d3d3-f5f3f4',
-  'https://coolors.co/palette/007f5f-2b9348-55a630-80b918-aacc00-bfd200-d4d700-dddf00-eeef20-ffff3f',
-  'https://coolors.co/palette/00296b-003f88-00509d-fdc500-ffd500',
-  'https://coolors.co/palette/004b23-006400-007200-008000-38b000-70e000-9ef01a-ccff33',
-  'https://coolors.co/palette/ff6d00-ff7900-ff8500-ff9100-ff9e00-240046-3c096c-5a189a-7b2cbf-9d4edd',
-  'https://coolors.co/palette/004733-2b6a4d-568d66-a5c1ae-f3f4f6-dcdfe5-df8080-cb0b0a-ad080f-8e0413',
-  'https://coolors.co/palette/fbf8cc-fde4cf-ffcfd2-f1c0e8-cfbaf0-a3c4f3-90dbf4-8eecf5-98f5e1-b9fbc0',
+  // "https://coolors.co/palette/00ffff-00ff15-ffff00-ff9500-ff0040-ff00ff", too bright maybe
+  // "https://coolors.co/palette/04e762-f5b700-008bf8-89fc00-f4442e", // bright green red thing
+  // "https://coolors.co/palette/ffc759-ff7b9c-607196-babfd1-e8e9ed", // gray-yellow-red pastel
+  // "https://coolors.co/palette/81f4e1-56cbf9-ff729f-d3c4d1", // blue-green pastels
+  // "https://coolors.co/palette/cfd4c5-eecfd4-efb9cb-e6adec-c287e8", // rose-purplish pastels
+  // "https://coolors.co/palette/f5ffc6-b4e1ff-ab87ff-fface4-c1ff9b", // purplish pastels
+  // "https://coolors.co/palette/70d6ff-ff70a6-ff9770-ffd670-e9ff70", // light reddish pastels
+  // 'https://coolors.co/palette/f72585-b5179e-7209b7-560bad-480ca8-3a0ca3-3f37c9-4361ee-4895ef-4cc9f0', // bluesish
+  'https://coolors.co/palette/9b5de5-f15bb5-fee440-00bbf9-00f5d4', // bright pastels
+  // 'https://coolors.co/palette/0b090a-161a1d-660708-a4161a-ba181b-e5383b-b1a7a6-d3d3d3-f5f3f4', // reds
+  // 'https://coolors.co/palette/007f5f-2b9348-55a630-80b918-aacc00-bfd200-d4d700-dddf00-eeef20-ffff3f', // spring green & yellow
+  // 'https://coolors.co/palette/00296b-003f88-00509d-fdc500-ffd500', // Blue & Yellow
+  // 'https://coolors.co/palette/004b23-006400-007200-008000-38b000-70e000-9ef01a-ccff33', // Emerald City
+  // 'https://coolors.co/palette/ff6d00-ff7900-ff8500-ff9100-ff9e00-240046-3c096c-5a189a-7b2cbf-9d4edd', // purple-orange
+  // 'https://coolors.co/palette/004733-2b6a4d-568d66-a5c1ae-f3f4f6-dcdfe5-df8080-cb0b0a-ad080f-8e0413', // red-green technicolor
+  // 'https://coolors.co/palette/fbf8cc-fde4cf-ffcfd2-f1c0e8-cfbaf0-a3c4f3-90dbf4-8eecf5-98f5e1-b9fbc0', // pale
 ];
 
 const dashes = [[2], [5], [10], [30], [5, 10, 30, 10]];
+
+const overlays = [
+  drawCircleTile,
+  drawRotatedCrossTile,
+  drawRadialLinesTile,
+  drawRings,
+  drawPolygonTile,
+];
+
+const underlays = [
+  drawCircleTile,
+  drawSquareTile,
+  drawRotatedCrossTile,
+  drawCircleOfCirclesTile,
+  drawRadialLinesTile,
+  drawRings,
+  drawPolygonTile,
+];
+
+let underlayIndex = 0
 
 sketch.setup = () => {
   createCanvas(800, 800);
@@ -61,6 +63,12 @@ sketch.mouseClicked = () => {
   drawGrid();
 }
 
+let tileSequencer = () => {
+  let nextUnderlay = underlays[underlayIndex]
+  underlayIndex = (underlayIndex + 1) % (underlays.length - 1)
+  return nextUnderlay
+}
+
 function drawGrid() {
   background(255);
   let cols = 8;
@@ -69,23 +77,13 @@ function drawGrid() {
   let padding = (width / cols) * 0.2; // Padding to create gaps
   let colors = getColorsFromUrl(random(palettes));
 
-  const tileFunctions = [
-    drawCircleTile,
-    drawSquareTile,
-    drawRotatedCrossTile,
-    drawCircleOfCirclesTile,
-    drawRadialLinesTile,
-    drawRings,
-    drawPolygonTile,
-  ];
-
   for (let i = 0; i < cols; i++) {
     for (let j = 0; j < rows; j++) {
       colors = shuffle(colors, true); // Shuffle the colors array for each tile
       let x = i * (tileSize + padding) + padding / 2;
       let y = j * (tileSize + padding) + padding / 2;
-      let tileFunction = random(tileFunctions);
-      tileFunction(x, y, tileSize, colors, random([true, false]));
+      tileSequencer()(x, y, tileSize, colors, random([true, false]));
+      if (random([true, false])) random(overlays)(x, y, tileSize, colors, random([true, false]));
     }
   }
 }
@@ -121,9 +119,9 @@ function drawRotatedCrossTile(x, y, tileSize, colors, rotated = false) {
   push();
   translate(x + tileSize / 2, y + tileSize / 2);
   if (rotated) rotate(PI / 4);
-  fill(colors[0]);
+  fill(random(colors));
   rect(0, 0, tileSize, barWidth, barWidth / 2); // Horizontal bar
-  fill(colors[1]);
+  fill(random(colors));
   rect(0, 0, barWidth, tileSize, barWidth / 2); // Vertical bar
   pop();
   blendMode(BLEND); // Reset blend mode to default
