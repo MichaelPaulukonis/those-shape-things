@@ -1,33 +1,41 @@
-# shape things
+# Those Shape Things
 
-inspired by work of https://bsky.app/profile/leedoughty.bsky.social
+> **⚠️ This repository has moved to a monorepo**
+> 
+> Active development now happens in the [GenArt Monorepo](https://github.com/MichaelPaulukonis/genart-monorepo).
+> 
+> This repository remains active **only** for GitHub Pages deployment. The source code here is no longer maintained.
 
+---
 
-## ideas
+![Those Shape Things Screenshot](./docs/screenshots/those-shape-things-main.png)
 
-- https://www.gorillasun.de/blog/dashed-lines-in-p5js/
-- "sparkles" from https://p5js.org/tutorials/custom-shapes-and-smooth-curves/
-- rounded corners on corners
-- fat square cross
-- double-line circle, double-line square
-- combine two tiles
-- equidistant circle/square insets (like stripes)
-- dashed-line segments matching over circles
-- improve circle conditioning
-- zig-zag starburst
-- "atomic" loops
-- radial-lines poking out from behind circle/square
-- two opposing quarter-circles
-- circle-of-circles with same-size circle in center
-- divide into overlays and underlays
-  - underlays are opaque
-  - but some overlays are opaque and SMALLER
+## 🔗 Links
 
+- **Live Demo:** [https://michaelpaulukonis.github.io/those-shape-things/](https://michaelpaulukonis.github.io/those-shape-things/)
+- **Monorepo:** [https://github.com/MichaelPaulukonis/genart-monorepo](https://github.com/MichaelPaulukonis/genart-monorepo)
+- **Source Code:** [apps/those-shape-things/](https://github.com/MichaelPaulukonis/genart-monorepo/tree/main/apps/those-shape-things)
+- **Documentation:** [View in monorepo](https://github.com/MichaelPaulukonis/genart-monorepo/tree/main/apps/those-shape-things/README.md)
 
-## from P5.js-vite Starter Template 🚀
+## About
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+Geometric tile-based compositions with customizable color palettes and shape patterns on an 8x8 grid.
 
-[Vite](https://vitejs.dev/) starter template to scaffold a new [p5.js](https://p5js.org) project.
+Built with p5.js as part of the GenArt creative coding collection.
 
-This is an unopinionated template; aside from P5.js and Vite, the rest of your project's tools are entirely up to you.
+## Development
+
+All development happens in the monorepo. To work on this project:
+
+```bash
+git clone https://github.com/MichaelPaulukonis/genart-monorepo.git
+cd genart-monorepo
+pnpm install
+nx dev those-shape-things
+```
+
+See the [monorepo documentation](https://github.com/MichaelPaulukonis/genart-monorepo) for more details.
+
+## License
+
+MIT
